@@ -85,7 +85,7 @@ jobs:
       id: kernel
     
     - name: Configure Git
-        run: |
+      run: |
         git config --global user.name "build"
         git config --global user.email "7654321@qq.com"
       working-directory: ${{ steps.workspace.outputs.workspace-folder }}
