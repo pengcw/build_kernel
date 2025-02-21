@@ -88,7 +88,6 @@ jobs:
       run: |
         git clone --depth=1 ${{ github.event.inputs.WIREGUARD_URL }} -b ${{ github.event.inputs.WIREGUARD_BRANCH }} android_kernel_wireguard
         echo "kernel-folder=$(pwd)/android_kernel_wireguard" >> $GITHUB_OUTPUT
-        bash android_kernel_wireguard/patch-kernel.sh kernel_tree
       working-directory: ${{ steps.workspace.outputs.workspace-folder }}
       id: wireguard_patch
 
@@ -96,6 +95,7 @@ jobs:
       run: |
         git submodule init && git submodule update
         bash nextpatch.sh
+        bash ${{ steps.workspace.outputs.workspace-folder }}/android_kernel_wireguard/patch-kernel.sh kernel_tree
         export ARCH=arm64
         export SUBARCH=ARM64
         export KBUILD_BUILD_USER="renoroi"
@@ -168,3 +168,6 @@ jobs:
           ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/AnyKernel3/
           !${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/AnyKernel3/.git
           !${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/AnyKernel3/.github
+
+
+          
