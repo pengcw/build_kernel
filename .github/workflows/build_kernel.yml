@@ -95,7 +95,7 @@ jobs:
       run: |
         git submodule init && git submodule update
         bash nextpatch.sh
-        bash ${{ steps.workspace.outputs.workspace-folder }}/android_kernel_wireguard/patch-kernel.sh kernel_tree
+        bash ${{ steps.workspace.outputs.workspace-folder }}/android_kernel_wireguard/patch-kernel.sh ${{ steps.workspace.outputs.workspace-folder }}/kernel_tree
         export ARCH=arm64
         export SUBARCH=ARM64
         export KBUILD_BUILD_USER="renoroi"
