@@ -29,7 +29,7 @@ on:
         required: false
       WIREGUARD_URL:
         description: 'wirefuard'
-        default: 'https://github.com/pengcw/android_kernel_wireguard'
+        default: 'https://github.com/WireGuard/android_kernel_wireguard'
         required: false
       WIREGUARD_BRANCH:
         description: 'wireguard Branch (defaults to codename)'
@@ -83,11 +83,17 @@ jobs:
         echo "kernel-folder=$(pwd)/kernel_tree" >> $GITHUB_OUTPUT
       working-directory: ${{ steps.workspace.outputs.workspace-folder }}
       id: kernel
+    
+    - name: Configure Git
+        run: |
+        git config --global user.name "build"
+        git config --global user.email "7654321@qq.com"
 
     - name: Patch wireguard
       run: |
         git clone --depth=1 ${{ github.event.inputs.WIREGUARD_URL }} -b ${{ github.event.inputs.WIREGUARD_BRANCH }} android_kernel_wireguard
         echo "kernel-folder=$(pwd)/android_kernel_wireguard" >> $GITHUB_OUTPUT
+         bash android_kernel_wireguard/patch-kernel.sh  kernel_tree
       working-directory: ${{ steps.workspace.outputs.workspace-folder }}
       id: wireguard_patch
 
@@ -95,7 +101,6 @@ jobs:
       run: |
         git submodule init && git submodule update
         bash nextpatch.sh
-        bash ${{ steps.workspace.outputs.workspace-folder }}/android_kernel_wireguard/patch-kernel.sh ${{ steps.workspace.outputs.workspace-folder }}/kernel_tree
         export ARCH=arm64
         export SUBARCH=ARM64
         export KBUILD_BUILD_USER="renoroi"
@@ -168,6 +173,3 @@ jobs:
           ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/AnyKernel3/
           !${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/AnyKernel3/.git
           !${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/AnyKernel3/.github
-
-
-          
