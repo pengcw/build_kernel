@@ -93,7 +93,7 @@ jobs:
       run: |
         git clone --depth=1 ${{ github.event.inputs.WIREGUARD_URL }} -b ${{ github.event.inputs.WIREGUARD_BRANCH }} android_kernel_wireguard
         echo "kernel-folder=$(pwd)/android_kernel_wireguard" >> $GITHUB_OUTPUT
-         bash android_kernel_wireguard/patch-kernel.sh  kernel_tree
+        bash android_kernel_wireguard/patch-kernel.sh  kernel_tree
       working-directory: ${{ steps.workspace.outputs.workspace-folder }}
       id: wireguard_patch
 
