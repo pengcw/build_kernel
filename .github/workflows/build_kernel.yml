@@ -29,7 +29,7 @@ on:
         required: false
       WIREGUARD_URL:
         description: 'wirefuard'
-        default: 'https://github.com/WireGuard/android_kernel_wireguard'
+        default: 'https://github.com/pengcw/android_kernel_wireguard'
         required: false
       WIREGUARD_BRANCH:
         description: 'wireguard Branch (defaults to codename)'
