@@ -89,7 +89,7 @@ jobs:
         git config --global user.name "build"
         git config --global user.email "7654321@qq.com"
       working-directory: ${{ steps.workspace.outputs.workspace-folder }}
-      id：gituser
+      id: gituser
 
     - name: Patch wireguard
       run: |
