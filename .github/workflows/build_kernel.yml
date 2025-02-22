@@ -9,7 +9,7 @@ on:
         required: false
       KERNEL_TREE:
         description: 'Kernel Tree'
-        default: 'https://github.com/re-noroi/kernel_sm8250'
+        default: 'https://github.com/pengcw/kernel_sm8250'
         required: true
       KERNEL_TREE_BRANCH:
         description: 'Kernel Tree Branch'
