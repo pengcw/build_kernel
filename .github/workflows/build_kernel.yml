@@ -83,7 +83,7 @@ jobs:
         export SUBARCH=ARM64
         export KBUILD_BUILD_USER="renoroi"
         export KBUILD_BUILD_HOST="dreamstate"
-        make O=out vendor/alioth_defconfig PATH="${{ steps.tools.outputs.tools-folder }}/clang/bin:$PATH"
+        make -d O=out vendor/alioth_defconfig PATH="${{ steps.tools.outputs.tools-folder }}/clang/bin:$PATH"
         make O=out CC=clang -j$(nproc --all) PATH="${{ steps.tools.outputs.tools-folder }}/clang/bin:$PATH" CROSS_COMPILE=aarch64-linux-gnu- LLVM=1 LLVM_IAS=1
         echo "elapsed_time=$(echo "$(date +%s)"-"${{ steps.workspace.outputs.start_time }}" | bc)" >> $GITHUB_OUTPUT
       working-directory: ${{ steps.kernel.outputs.kernel-folder }}
@@ -142,7 +142,13 @@ jobs:
       with:
         name: Image.gz
         path: ${{ steps.kernel.outputs.kernel-folder }}/out/arch/arm64/boot/Image.gz
-
+        
+    - uses: actions/upload-artifact@v4
+      if: ${{ success() && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
+      with:
+        name: config
+        path: ${{ steps.kernel.outputs.kernel-folder }}/out/.config
+        
     - uses: actions/upload-artifact@v4
       if: ${{ success() && github.event.inputs.ANYKERNEL_URL != '' && github.event.inputs.UPLOAD_TO_RELEASE != 'true' }}
       with:
